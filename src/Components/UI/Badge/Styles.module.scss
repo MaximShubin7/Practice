@@ -1,0 +1,72 @@
+@import "../../../styles/variables.scss";
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: $radius-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+
+  &.size-xs {
+    font-size: $font-xs;
+    padding: 2px 8px;
+    border-radius: $radius-xs;
+  }
+
+  &.size-sm {
+    font-size: $font-sm;
+    padding: 4px 10px;
+    border-radius: $radius-sm;
+  }
+
+  &.size-md {
+    font-size: $font-md;
+    padding: 4px 14px;
+    border-radius: $radius-md;
+  }
+
+  &.size-lg {
+    font-size: $font-lg;
+    padding: 6px 18px;
+    border-radius: $radius-lg;
+  }
+
+  &.size-xl {
+    font-size: $font-xl;
+    padding: 8px 22px;
+    border-radius: $radius-xl;
+  }
+
+  &.variant-primary {
+    background: $color-blue-500;
+    color: $color-white;
+  }
+
+  &.variant-secondary {
+    background: $color-cyan-500;
+    color: $color-white;
+  }
+
+  &.variant-success {
+    background: $color-success;
+    color: $color-white;
+  }
+
+  &.variant-warning {
+    background: $color-warning;
+    color: $color-white;
+  }
+
+  &.variant-danger {
+    background: $color-danger;
+    color: $color-white;
+  }
+
+  &.variant-info {
+    background: $color-info;
+    color: $color-white;
+  }
+}

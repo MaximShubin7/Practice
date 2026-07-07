@@ -1,0 +1,169 @@
+@import "../../../Styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+
+  &.error {
+    .customCheckbox {
+      border-color: $color-danger;
+    }
+  }
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:focus-visible + .label {
+    .customCheckbox {
+      outline: 2px solid $color-blue-500;
+      outline-offset: 2px;
+    }
+  }
+
+  &:disabled + .label {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    .customCheckbox {
+      background: $color-blue-50;
+    }
+  }
+
+  &:checked + .label {
+    .customCheckbox {
+      background: $color-blue-500;
+      border-color: $color-blue-500;
+
+      .checkmark {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.customCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $color-blue-300;
+  border-radius: $radius-xs;
+  background: $color-white;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+
+  .checkmark {
+    opacity: 0;
+    transform: scale(0);
+    transition: all $transition-fast;
+    color: $color-white;
+  }
+}
+
+.labelText {
+  font-size: $font-sm;
+  color: $color-blue-700;
+}
+
+.errorMessage {
+  font-size: $font-xs;
+  color: $color-danger;
+}
+
+.size-xs {
+  .customCheckbox {
+    width: 16px;
+    height: 16px;
+    border-radius: $radius-xs;
+
+    .checkmark {
+      width: 10px;
+      height: 10px;
+    }
+  }
+  .labelText {
+    font-size: $font-xs;
+  }
+}
+
+.size-sm {
+  .customCheckbox {
+    width: 18px;
+    height: 18px;
+    border-radius: $radius-xs;
+
+    .checkmark {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  .labelText {
+    font-size: $font-sm;
+  }
+}
+
+.size-md {
+  .customCheckbox {
+    width: 20px;
+    height: 20px;
+    border-radius: $radius-sm;
+
+    .checkmark {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  .labelText {
+    font-size: $font-md;
+  }
+}
+
+.size-lg {
+  .customCheckbox {
+    width: 24px;
+    height: 24px;
+    border-radius: $radius-sm;
+
+    .checkmark {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .labelText {
+    font-size: $font-lg;
+  }
+}
+
+.size-xl {
+  .customCheckbox {
+    width: 28px;
+    height: 28px;
+    border-radius: $radius-md;
+
+    .checkmark {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  .labelText {
+    font-size: $font-xl;
+  }
+}

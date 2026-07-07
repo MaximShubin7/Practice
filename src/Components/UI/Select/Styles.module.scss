@@ -1,0 +1,99 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: $font-sm;
+  font-weight: 500;
+  color: $color-blue-700;
+}
+
+.select {
+  font-family: inherit;
+  border: 2px solid $color-blue-200;
+  border-radius: $radius-md;
+  background: $color-white;
+  color: $color-blue-900;
+  transition: all $transition-fast;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232b9aff' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $color-blue-400;
+  }
+
+  &:focus-visible {
+    border-color: $color-blue-500;
+    box-shadow: 0 0 0 3px rgba($color-blue-500, 0.1);
+  }
+
+  &:disabled {
+    background-color: $color-blue-50;
+    cursor: not-allowed;
+  }
+
+  &.error {
+    border-color: $color-danger;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.1);
+    }
+  }
+
+  &.size-xs {
+    height: $size-xs;
+    font-size: $font-xs;
+    padding: $padding-xs;
+    padding-right: 28px;
+    border-radius: $radius-xs;
+  }
+
+  &.size-sm {
+    height: $size-sm;
+    font-size: $font-sm;
+    padding: $padding-sm;
+    padding-right: 32px;
+    border-radius: $radius-sm;
+  }
+
+  &.size-md {
+    height: $size-md;
+    font-size: $font-md;
+    padding: $padding-md;
+    padding-right: 36px;
+    border-radius: $radius-md;
+  }
+
+  &.size-lg {
+    height: $size-lg;
+    font-size: $font-lg;
+    padding: $padding-lg;
+    padding-right: 40px;
+    border-radius: $radius-lg;
+  }
+
+  &.size-xl {
+    height: $size-xl;
+    font-size: $font-xl;
+    padding: $padding-xl;
+    padding-right: 44px;
+    border-radius: $radius-xl;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+.errorMessage {
+  font-size: $font-xs;
+  color: $color-danger;
+}

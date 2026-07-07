@@ -1,0 +1,82 @@
+@import "../../../styles/variables.scss";
+
+.card {
+  background: $color-white;
+  border: 1px solid $color-blue-100;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+
+  &.size-xs {
+    border-radius: $radius-xs;
+    font-size: $font-xs;
+  }
+
+  &.size-sm {
+    border-radius: $radius-sm;
+    font-size: $font-sm;
+  }
+
+  &.size-md {
+    border-radius: $radius-md;
+    font-size: $font-md;
+  }
+
+  &.size-lg {
+    border-radius: $radius-lg;
+    font-size: $font-lg;
+  }
+
+  &.size-xl {
+    border-radius: $radius-xl;
+    font-size: $font-xl;
+  }
+
+  &.padding-xs {
+    padding: $padding-xs;
+  }
+
+  &.padding-sm {
+    padding: $padding-sm;
+  }
+
+  &.padding-md {
+    padding: $padding-md;
+  }
+
+  &.padding-lg {
+    padding: $padding-lg;
+  }
+
+  &.padding-xl {
+    padding: $padding-xl;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.interactive {
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+      border-color: $color-blue-300;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: $shadow-sm;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-blue-500;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

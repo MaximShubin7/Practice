@@ -1,0 +1,32 @@
+@import "../../../styles/variables.scss";
+
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  object-fit: contain;
+
+  &.size-xs {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.size-sm {
+    width: 20px;
+    height: 20px;
+  }
+
+  &.size-md {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.size-lg {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.size-xl {
+    width: 40px;
+    height: 40px;
+  }
+}

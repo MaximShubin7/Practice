@@ -1,0 +1,61 @@
+@import "../../../styles/variables.scss";
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, $color-blue-50 0%, $color-cyan-50 100%);
+}
+
+.card {
+  max-width: 420px;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-blue-800;
+}
+
+.subtitle {
+  font-size: $font-md;
+  color: $color-blue-400;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid $color-blue-100;
+}
+
+.link {
+  font-weight: 500;
+  color: $color-blue-500;
+  margin-left: 4px;
+
+  &:hover {
+    color: $color-blue-600;
+    text-decoration: underline;
+  }
+}

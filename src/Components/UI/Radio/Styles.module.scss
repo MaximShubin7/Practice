@@ -1,0 +1,141 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+
+  &.error {
+    .customRadio {
+      border-color: $color-danger;
+    }
+  }
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:focus-visible + .label {
+    .customRadio {
+      outline: 2px solid $color-blue-500;
+      outline-offset: 2px;
+    }
+  }
+
+  &:disabled + .label {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    .customRadio {
+      background: $color-blue-50;
+    }
+  }
+
+  &:checked + .label {
+    .customRadio {
+      border-color: $color-blue-500;
+
+      .radioDot {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.customRadio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $color-blue-300;
+  border-radius: 50%;
+  background: $color-white;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+}
+
+.radioDot {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: $color-blue-500;
+  opacity: 0;
+  transform: scale(0);
+  transition: all $transition-fast;
+}
+
+.labelText {
+  font-size: $font-sm;
+  color: $color-blue-700;
+}
+
+.errorMessage {
+  font-size: $font-xs;
+  color: $color-danger;
+}
+
+.size-xs {
+  .customRadio {
+    width: 16px;
+    height: 16px;
+  }
+  .labelText {
+    font-size: $font-xs;
+  }
+}
+
+.size-sm {
+  .customRadio {
+    width: 18px;
+    height: 18px;
+  }
+  .labelText {
+    font-size: $font-sm;
+  }
+}
+
+.size-md {
+  .customRadio {
+    width: 20px;
+    height: 20px;
+  }
+  .labelText {
+    font-size: $font-md;
+  }
+}
+
+.size-lg {
+  .customRadio {
+    width: 24px;
+    height: 24px;
+  }
+  .labelText {
+    font-size: $font-lg;
+  }
+}
+
+.size-xl {
+  .customRadio {
+    width: 28px;
+    height: 28px;
+  }
+  .labelText {
+    font-size: $font-xl;
+  }
+}

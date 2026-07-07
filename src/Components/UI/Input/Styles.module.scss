@@ -1,0 +1,93 @@
+@import "../../../Styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: $font-sm;
+  font-weight: 500;
+  color: $color-blue-700;
+}
+
+.input {
+  font-family: inherit;
+  border: 2px solid $color-blue-200;
+  border-radius: $radius-md;
+  background: $color-white;
+  color: $color-blue-900;
+  transition: all $transition-fast;
+  outline: none;
+
+  &::placeholder {
+    color: $color-blue-300;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: $color-blue-400;
+  }
+
+  &:focus-visible {
+    border-color: $color-blue-500;
+    box-shadow: 0 0 0 3px rgba($color-blue-500, 0.1);
+  }
+
+  &:disabled {
+    background: $color-blue-50;
+    cursor: not-allowed;
+  }
+
+  &.error {
+    border-color: $color-danger;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.1);
+    }
+  }
+
+  &.size-xs {
+    height: $size-xs;
+    font-size: $font-xs;
+    padding: $padding-xs;
+    border-radius: $radius-xs;
+  }
+
+  &.size-sm {
+    height: $size-sm;
+    font-size: $font-sm;
+    padding: $padding-sm;
+    border-radius: $radius-sm;
+  }
+
+  &.size-md {
+    height: $size-md;
+    font-size: $font-md;
+    padding: $padding-md;
+    border-radius: $radius-md;
+  }
+
+  &.size-lg {
+    height: $size-lg;
+    font-size: $font-lg;
+    padding: $padding-lg;
+    border-radius: $radius-lg;
+  }
+
+  &.size-xl {
+    height: $size-xl;
+    font-size: $font-xl;
+    padding: $padding-xl;
+    border-radius: $radius-xl;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+.errorMessage {
+  font-size: $font-xs;
+  color: $color-danger;
+}

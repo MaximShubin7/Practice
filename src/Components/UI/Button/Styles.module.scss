@@ -1,0 +1,120 @@
+@import "../../../styles/variables.scss";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-fast;
+  user-select: none;
+  white-space: nowrap;
+
+  &:focus-visible {
+    outline: 2px solid $color-blue-500;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &.size-xs {
+    height: $size-xs;
+    font-size: $font-xs;
+    padding: $padding-xs;
+    border-radius: $radius-xs;
+  }
+
+  &.size-sm {
+    height: $size-sm;
+    font-size: $font-sm;
+    padding: $padding-sm;
+    border-radius: $radius-sm;
+  }
+
+  &.size-md {
+    height: $size-md;
+    font-size: $font-md;
+    padding: $padding-md;
+    border-radius: $radius-md;
+  }
+
+  &.size-lg {
+    height: $size-lg;
+    font-size: $font-lg;
+    padding: $padding-lg;
+    border-radius: $radius-lg;
+  }
+
+  &.size-xl {
+    height: $size-xl;
+    font-size: $font-xl;
+    padding: $padding-xl;
+    border-radius: $radius-xl;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.rounded {
+    border-radius: 50%;
+    aspect-ratio: 1;
+    padding: 0;
+    width: var(--button-size, $size-md);
+
+    &.size-xs {
+      --button-size: $size-xs;
+    }
+    &.size-sm {
+      --button-size: $size-sm;
+    }
+    &.size-md {
+      --button-size: $size-md;
+    }
+    &.size-lg {
+      --button-size: $size-lg;
+    }
+    &.size-xl {
+      --button-size: $size-xl;
+    }
+  }
+
+  &.variant-primary {
+    background: $color-blue-500;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: $color-blue-600;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &.variant-secondary {
+    background: $color-cyan-500;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: $color-cyan-600;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: $shadow-sm;
+    }
+  }
+}

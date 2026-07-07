@@ -1,0 +1,61 @@
+$color-white: #ffffff;
+$color-blue-50: #f0f7ff;
+$color-blue-100: #e0efff;
+$color-blue-200: #b8d9ff;
+$color-blue-300: #8ac4ff;
+$color-blue-400: #5aafff;
+$color-blue-500: #2b9aff;
+$color-blue-600: #1a7acc;
+$color-blue-700: #0f5a99;
+$color-blue-800: #0a3d66;
+$color-blue-900: #052033;
+
+$color-cyan-50: #f0faff;
+$color-cyan-100: #e0f5ff;
+$color-cyan-200: #b8ebff;
+$color-cyan-300: #8ae0ff;
+$color-cyan-400: #5ad5ff;
+$color-cyan-500: #2bcaff;
+$color-cyan-600: #1aa8cc;
+$color-cyan-700: #0f7e99;
+$color-cyan-800: #0a5466;
+$color-cyan-900: #052a33;
+
+$size-xs: 24px;
+$size-sm: 32px;
+$size-md: 40px;
+$size-lg: 48px;
+$size-xl: 56px;
+
+$font-xs: 11px;
+$font-sm: 13px;
+$font-md: 15px;
+$font-lg: 17px;
+$font-xl: 19px;
+
+$radius-xs: 4px;
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+
+$padding-xs: 4px 8px;
+$padding-sm: 6px 12px;
+$padding-md: 8px 16px;
+$padding-lg: 10px 20px;
+$padding-xl: 12px 24px;
+
+$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+$shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.15);
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 350ms ease;
+
+$color-success: #22c55e;
+$color-warning: #eab308;
+$color-danger: #ef4444;
+$color-info: $color-blue-500;
