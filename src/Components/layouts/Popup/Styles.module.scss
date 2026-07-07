@@ -1,0 +1,108 @@
+@import "../../../styles/variables.scss";
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn $transition-base;
+}
+
+.popup {
+  background: $color-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-xl;
+  max-height: 90vh;
+  overflow: auto;
+  animation: slideUp $transition-base;
+
+  &.size-xs {
+    max-width: 300px;
+    padding: $padding-xs;
+  }
+
+  &.size-sm {
+    max-width: 400px;
+    padding: $padding-sm;
+  }
+
+  &.size-md {
+    max-width: 500px;
+    padding: $padding-md;
+  }
+
+  &.size-lg {
+    max-width: 700px;
+    padding: $padding-lg;
+  }
+
+  &.size-xl {
+    max-width: 900px;
+    padding: $padding-xl;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $color-blue-100;
+}
+
+.title {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $color-blue-800;
+  margin: 0;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: $color-blue-400;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-blue-50;
+    color: $color-blue-600;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-blue-500;
+    outline-offset: 2px;
+  }
+}
+
+.content {
+  color: $color-blue-700;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
