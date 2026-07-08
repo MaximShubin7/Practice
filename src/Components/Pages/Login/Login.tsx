@@ -1,14 +1,20 @@
-import { type JSX } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "../../UI/Input/Input";
-import { Button } from "../../UI/Button/Button";
-import { Card } from "../../UI/Card/Card";
-import { loginSchema, type LoginFormData } from "./Schema";
 import styles from "./Styles.module.scss";
+import { useAuth } from "../../Hooks/useAuth";
+import { Button } from "../../UI/Button";
+import { Card } from "../../UI/Card";
+import { Input } from "../../UI/Input";
+import { Loader } from "../../UI/Loader";
+import { type LoginFormData, loginSchema } from "./Schema";
 
-function LoginComponent(): JSX.Element {
+function LoginComponent() {
+  const navigate = useNavigate();
+  const { login, isAuthenticated, isLoading } = useAuth();
+  const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -22,23 +28,40 @@ function LoginComponent(): JSX.Element {
     },
   });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
+
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-    reset();
+    const result = login(data.email, data.password);
+
+    if (result.success) {
+      reset();
+      navigate("/profile");
+    } else {
+      setError(result.message);
+    }
   };
 
   const handleClear = () => {
     reset();
+    setError("");
   };
+
+  if (isLoading) {
+    return <Loader fullPage />;
+  }
 
   return (
     <div className={styles.page}>
       <Card size="lg" padding="lg" fullWidth className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Вход</h1>
-        </div>
+        <h1 className={styles.title}>Вход</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {error && <div className={styles.errorMessage}>{error}</div>}
+
           <Input
             size="md"
             label="Email"

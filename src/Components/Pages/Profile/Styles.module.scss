@@ -1,0 +1,45 @@
+@import "../../../styles/variables.scss";
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+  background: $color-blue-50;
+}
+
+.card {
+  max-width: 500px;
+  width: 100%;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-blue-800;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid $color-blue-100;
+}
+
+.label {
+  font-weight: 500;
+  color: $color-blue-600;
+}
+
+.value {
+  color: $color-blue-900;
+}

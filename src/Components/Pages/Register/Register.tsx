@@ -1,19 +1,27 @@
-import type { JSX } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "../../UI/Input/Input";
-import { Button } from "../../UI/Button/Button";
-import { Card } from "../../UI/Card/Card";
-import { Select } from "../../UI/Select/Select";
-import { registerSchema, type RegisterFormData } from "./Schema";
 import styles from "./Styles.module.scss";
+import { useAuth } from "../../Hooks/useAuth";
+import { Button } from "../../UI/Button";
+import { Card } from "../../UI/Card";
+import { Checkbox } from "../../UI/Checkbox";
+import { Input } from "../../UI/Input";
+import { Loader } from "../../UI/Loader";
+import { Select } from "../../UI/Select";
+import { type RegisterFormData, registerSchema } from "./Schema";
 
-function RegisterComponent(): JSX.Element {
+function RegisterComponent() {
+  const navigate = useNavigate();
+  const { register: registerUser, isAuthenticated, isLoading } = useAuth();
+  const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: yupResolver(registerSchema),
@@ -21,11 +29,25 @@ function RegisterComponent(): JSX.Element {
       email: "",
       firstName: "",
       lastName: "",
+      gender: undefined,
       birthDate: "",
       password: "",
       confirmPassword: "",
+      isAdmin: false,
     },
   });
+
+  const isAdmin = useWatch({
+    control,
+    name: "isAdmin",
+    defaultValue: false,
+  });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
 
   const genderOptions = [
     { value: "", label: "Выберите пол" },
@@ -34,22 +56,41 @@ function RegisterComponent(): JSX.Element {
   ];
 
   const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
-    reset();
+    const result = registerUser({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      gender: data.gender,
+      birthDate: data.birthDate,
+      password: data.password,
+      role: data.isAdmin ? "admin" : "user",
+    });
+
+    if (result.success) {
+      reset();
+      navigate("/profile");
+    } else {
+      setError(result.message);
+    }
   };
 
   const handleClear = () => {
     reset();
+    setError("");
   };
+
+  if (isLoading) {
+    return <Loader fullPage />;
+  }
 
   return (
     <div className={styles.page}>
       <Card size="lg" padding="lg" fullWidth className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Регистрация</h1>
-        </div>
+        <h1 className={styles.title}>Регистрация</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {error && <div className={styles.errorMessage}>{error}</div>}
+
           <Input
             size="md"
             label="Email"
@@ -118,6 +159,13 @@ function RegisterComponent(): JSX.Element {
             error={errors.confirmPassword?.message}
             fullWidth
             {...register("confirmPassword")}
+          />
+
+          <Checkbox
+            size="md"
+            label="Зарегистрироваться как администратор"
+            checked={isAdmin}
+            {...register("isAdmin")}
           />
 
           <div className={styles.buttons}>

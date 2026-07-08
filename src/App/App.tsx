@@ -1,19 +1,42 @@
-import type { JSX } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Login } from "../Components/Pages/Login/Login.tsx";
-import { Register } from "../Components/Pages/Register/Register.tsx";
-import "./Styles.scss";
+import "./styles/index.scss";
+import { Login } from "../Components/Pages/Login";
+import { Profile } from "../Components/Pages/Profile";
+import { Register } from "../Components/Pages/Register";
+import { ProtectedRoute } from "../Components/ProtectedRoute";
+import { AuthProvider } from "../Contexts/AuthContext";
 
-function AppComponent(): JSX.Element {
+function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Navigate to="/login" replace />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute requireAuth>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAuth requireAdmin>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/" element={<Navigate to="/profile" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
 
-export const App = AppComponent;
+export default App;
