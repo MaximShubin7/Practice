@@ -8,11 +8,19 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "create-component": "node --experimental-modules create-component.mjs"
+    "create-component": "node --experimental-modules create-component.mjs",
+    "json-server": "json-server --watch src/Data/db.json --port 3002",
+    "auth-server": "node Server/index.cjs",
+    "start:auth": "concurrently \"npm run auth-server\" \"npm run dev\"",
+    "start:json": "concurrently \"npm run json-server\" \"npm run dev\"",
+    "start:all": "concurrently \"npm run json-server\" \"npm run auth-server\" \"npm run dev\"",
+    "start": "concurrently \"npm run json-server\" \"npm run auth-server\" \"npm run dev\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "classnames": "^2.5.1",
+    "json-server": "^1.0.0-beta.15",
+    "jsonwebtoken": "^9.0.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hook-form": "^7.81.0",
@@ -26,6 +34,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.3",
     "eslint": "^10.6.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",

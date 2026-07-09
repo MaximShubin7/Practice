@@ -1,0 +1,224 @@
+@import "../../../styles/variables.scss";
+
+.page {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-blue-800;
+  margin-bottom: 24px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: $color-white;
+  border: 1px solid $color-blue-100;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-blue-300;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: $radius-sm;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  font-size: $font-md;
+  font-weight: 500;
+  color: $color-blue-800;
+  margin: 0 0 4px;
+}
+
+.price {
+  font-size: $font-md;
+  font-weight: 600;
+  color: $color-blue-600;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid $color-blue-200;
+  border-radius: $radius-sm;
+  background: $color-white;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-blue-50;
+  }
+}
+
+.quantity {
+  font-size: $font-md;
+  font-weight: 500;
+  color: $color-blue-800;
+  min-width: 24px;
+  text-align: center;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: $color-blue-400;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-danger;
+  }
+}
+
+.summary {
+  padding: 24px;
+  background: $color-white;
+  border: 1px solid $color-blue-100;
+  border-radius: $radius-md;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.summaryTitle {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $color-blue-800;
+  margin: 0 0 16px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: $color-blue-600;
+  font-size: $font-sm;
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-top: 2px solid $color-blue-100;
+  font-size: $font-lg;
+  font-weight: 700;
+  color: $color-blue-800;
+}
+
+.checkoutButton {
+  width: 100%;
+  padding: 12px;
+  margin-top: 16px;
+  background: $color-blue-500;
+  color: $color-white;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: $font-md;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: $color-blue-600;
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-size: $font-lg;
+  color: $color-blue-400;
+  margin-bottom: 16px;
+}
+
+.emptyLink {
+  display: inline-block;
+  padding: 10px 24px;
+  background: $color-blue-500;
+  color: $color-white;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: $color-blue-600;
+  }
+}
+
+.popupText {
+  text-align: center;
+  margin-bottom: 20px;
+  color: $color-blue-700;
+}
+
+.popupButtons {
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .summary {
+    position: static;
+  }
+}

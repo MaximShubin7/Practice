@@ -1,4 +1,4 @@
-import { type JSX, memo } from "react";
+import { memo } from "react";
 import cn from "classnames";
 import styles from "./Styles.module.scss";
 
@@ -6,7 +6,7 @@ type CardSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: CardSize;
-  padding?: CardSize;
+  padding?: CardSize | "none";
   interactive?: boolean;
   fullWidth?: boolean;
   children: React.ReactNode;
@@ -20,7 +20,7 @@ function CardComponent({
   children,
   className = "",
   ...props
-}: CardProps): JSX.Element {
+}: CardProps) {
   const classes = cn(
     styles.card,
     styles[`size-${size}`],

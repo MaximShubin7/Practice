@@ -9,6 +9,11 @@ export interface User {
   role: "user" | "admin";
 }
 
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -17,10 +22,10 @@ export interface AuthContextType {
   login: (
     email: string,
     password: string,
-  ) => { success: boolean; message: string };
-  register: (userData: Omit<User, "id">) => {
-    success: boolean;
-    message: string;
-  };
+  ) => Promise<{ success: boolean; message: string }>;
+  register: (
+    userData: Omit<User, "id">,
+  ) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
+  refreshToken: () => Promise<string | null>;
 }

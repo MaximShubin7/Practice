@@ -1,0 +1,137 @@
+@import "../../../styles/variables.scss";
+
+.header {
+  background: $color-white;
+  border-bottom: 1px solid $color-blue-100;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: $color-blue-600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: $color-blue-700;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navLink {
+  color: $color-blue-400;
+  text-decoration: none;
+  font-size: $font-md;
+  font-weight: 500;
+  transition: all $transition-fast;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: $color-blue-600;
+  }
+
+  &.active {
+    color: $color-blue-600;
+    border-bottom-color: $color-blue-500;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userName {
+  font-weight: 500;
+  color: $color-blue-700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.adminBadge {
+  background: $color-blue-500;
+  color: $color-white;
+  padding: 2px 8px;
+  border-radius: $radius-xs;
+  font-size: $font-xs;
+  font-weight: 600;
+}
+
+.authButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.link {
+  color: $color-blue-500;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-blue-50;
+    color: $color-blue-600;
+  }
+}
+
+.logoutButton {
+  color: $color-danger;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: $radius-sm;
+  font-size: $font-sm;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: #fee2e2;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .userName {
+    display: none;
+  }
+}

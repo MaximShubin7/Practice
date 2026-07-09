@@ -1,9 +1,9 @@
-import { type JSX, memo } from "react";
+import { memo } from "react";
 import cn from "classnames";
 import styles from "./Styles.module.scss";
 
 type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "primary" | "secondary" | "success" | "danger";
 type ButtonType = "button" | "submit" | "reset";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -25,7 +25,7 @@ function ButtonComponent({
   className = "",
   disabled = false,
   ...props
-}: ButtonProps): JSX.Element {
+}: ButtonProps) {
   const classes = cn(
     styles.button,
     styles[`size-${size}`],

@@ -1,0 +1,155 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Смартфон Samsung Galaxy S23",
+      "price": 89990,
+      "image": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=300&h=200&fit=crop",
+      "description": "Современный смартфон с большим экраном и мощной камерой",
+      "characteristics": [
+        {
+          "name": "Экран",
+          "value": "6.1\" AMOLED"
+        },
+        {
+          "name": "Память",
+          "value": "128GB"
+        },
+        {
+          "name": "Камера",
+          "value": "50MP"
+        },
+        {
+          "name": "Батарея",
+          "value": "4000mAh"
+        }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "2",
+      "name": "Ноутбук Apple MacBook Pro",
+      "price": 199990,
+      "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&h=200&fit=crop",
+      "description": "Мощный ноутбук для работы и творчества",
+      "characteristics": [
+        {
+          "name": "Экран",
+          "value": "14\" Retina"
+        },
+        {
+          "name": "Процессор",
+          "value": "M2 Pro"
+        },
+        {
+          "name": "Память",
+          "value": "16GB RAM"
+        },
+        {
+          "name": "SSD",
+          "value": "512GB"
+        }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "3",
+      "name": "Наушники Sony WH-1000XM5",
+      "price": 34990,
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop",
+      "description": "Беспроводные наушники с шумоподавлением",
+      "characteristics": [
+        {
+          "name": "Bluetooth",
+          "value": "5.2"
+        },
+        {
+          "name": "Время работы",
+          "value": "30ч"
+        },
+        {
+          "name": "Шумоподавление",
+          "value": "Есть"
+        }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "4",
+      "name": "Умные часы Apple Watch Series 9",
+      "price": 45990,
+      "image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&h=200&fit=crop",
+      "description": "Умные часы с отслеживанием здоровья",
+      "characteristics": [
+        {
+          "name": "Размер",
+          "value": "41mm"
+        },
+        {
+          "name": "Экран",
+          "value": "Always-On"
+        },
+        {
+          "name": "GPS",
+          "value": "Есть"
+        },
+        {
+          "name": "ЭКГ",
+          "value": "Есть"
+        }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "5",
+      "name": "Планшет iPad Pro",
+      "price": 99990,
+      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&h=200&fit=crop",
+      "description": "Профессиональный планшет для работы",
+      "characteristics": [
+        {
+          "name": "Экран",
+          "value": "12.9\" Liquid Retina"
+        },
+        {
+          "name": "Процессор",
+          "value": "M2"
+        },
+        {
+          "name": "Память",
+          "value": "128GB"
+        },
+        {
+          "name": "Стилус",
+          "value": "Apple Pencil"
+        }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "6",
+      "name": "Фитнес-браслет Xiaomi Band 8",
+      "price": 4990,
+      "image": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=200&fit=crop",
+      "description": "Фитнес-трекер с большим экраном",
+      "characteristics": [
+        {
+          "name": "Экран",
+          "value": "1.62\" AMOLED"
+        },
+        {
+          "name": "Время работы",
+          "value": "16 дней"
+        },
+        {
+          "name": "Водозащита",
+          "value": "Есть"
+        }
+      ],
+      "isLiked": false
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json",
+  "users": [
+  ]
+}

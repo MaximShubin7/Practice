@@ -1,0 +1,56 @@
+@import "../../../styles/variables.scss";
+
+.page {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: $color-blue-800;
+  margin: 0;
+}
+
+.count {
+  font-size: $font-md;
+  color: $color-blue-400;
+}
+
+.searchWrapper {
+  margin-bottom: 24px;
+  max-width: 500px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: $color-blue-400;
+  font-size: $font-lg;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: $color-blue-400;
+  font-size: $font-lg;
+}

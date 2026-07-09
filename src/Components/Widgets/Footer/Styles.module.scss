@@ -1,0 +1,92 @@
+@import "../../../styles/variables.scss";
+
+.footer {
+  background: $color-blue-800;
+  color: $color-white;
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  flex: 1;
+  min-width: 150px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: $color-white;
+}
+
+.description {
+  color: $color-blue-300;
+  font-size: $font-sm;
+}
+
+.subtitle {
+  font-size: $font-md;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: $color-white;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  a {
+    color: $color-blue-300;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+}
+
+.bottom {
+  border-top: 1px solid $color-blue-700;
+  padding: 16px 0;
+  text-align: center;
+  color: $color-blue-300;
+  font-size: $font-sm;
+}
+
+@media (min-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .bottom .container {
+    display: block;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px 20px;
+  }
+
+  .bottom .container {
+    display: block;
+    padding: 0 20px;
+  }
+}

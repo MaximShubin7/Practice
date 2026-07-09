@@ -1,59 +1,90 @@
 import { createContext, type ReactNode, useState, useEffect } from "react";
-import { useLocalStorage } from "../Components/Hooks/useLocalStorage";
-import type { User, AuthContextType } from "./Types";
+import { authService } from "../Services/AuthService";
+
+interface User {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  birthDate: string;
+  password: string;
+  role: "user" | "admin";
+}
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isLoading: boolean;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; message: string }>;
+  register: (
+    userData: Omit<User, "id">,
+  ) => Promise<{ success: boolean; message: string }>;
+  logout: () => void;
+  refreshToken: () => Promise<string | null>;
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [users, setUsers] = useLocalStorage<User[]>("users", []);
-  const [user, setUser] = useLocalStorage<User | null>("currentUser", null);
+  const [user, setUser] = useState<User | null>(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      if (authService.isAuthenticated()) {
+        const token = await authService.refreshTokenRequest();
+        if (!token) {
+          localStorage.removeItem("user");
+          setUser(null);
+        }
+      } else {
+        localStorage.removeItem("user");
+        setUser(null);
+      }
       setIsLoading(false);
     };
+
     checkAuth();
   }, []);
 
-  const login = (email: string, password: string) => {
-    const foundUser = users.find((u) => u.email === email);
-
-    if (!foundUser) {
-      return { success: false, message: "Пользователь не найден" };
+  const login = async (email: string, password: string) => {
+    try {
+      const { user: userData } = await authService.login(email, password);
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+      return { success: true, message: "Вход выполнен" };
+    } catch (error) {
+      return { success: false, message: (error as Error).message };
     }
-
-    if (foundUser.password !== password) {
-      return { success: false, message: "Неверный пароль" };
-    }
-
-    setUser(foundUser);
-    return { success: true, message: "Вход выполнен" };
   };
 
-  const register = (userData: Omit<User, "id">) => {
-    const existingUser = users.find((u) => u.email === userData.email);
-
-    if (existingUser) {
-      return {
-        success: false,
-        message: "Аккаунт с таким email уже существует",
-      };
+  const register = async (userData: Omit<User, "id">) => {
+    try {
+      const { user: newUser } = await authService.register(userData);
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      return { success: true, message: "Регистрация успешна" };
+    } catch (error) {
+      return { success: false, message: (error as Error).message };
     }
-
-    const newUser = {
-      ...userData,
-      id: Date.now(),
-    };
-
-    setUsers([...users, newUser]);
-    setUser(newUser);
-    return { success: true, message: "Регистрация успешна" };
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  const refreshToken = async (): Promise<string | null> => {
+    return authService.refreshTokenRequest();
   };
 
   const value: AuthContextType = {
@@ -64,6 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login,
     register,
     logout,
+    refreshToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

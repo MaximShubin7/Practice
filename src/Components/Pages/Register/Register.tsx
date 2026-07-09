@@ -55,8 +55,8 @@ function RegisterComponent() {
     { value: "Женский", label: "Женский" },
   ];
 
-  const onSubmit = (data: RegisterFormData) => {
-    const result = registerUser({
+  const onSubmit = async (data: RegisterFormData) => {
+    const result = await registerUser({
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,

@@ -157,21 +157,3 @@ textarea {
 .gap-3 {
   gap: 1.5rem;
 }
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: $color-blue-50;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $color-blue-300;
-  border-radius: 4px;
-
-  &:hover {
-    background: $color-blue-400;
-  }
-}

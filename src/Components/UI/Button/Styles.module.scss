@@ -117,4 +117,36 @@
       box-shadow: $shadow-sm;
     }
   }
+
+  &.variant-success {
+    background: $color-success;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &.variant-danger {
+    background: $color-danger;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: #dc2626;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: $shadow-sm;
+    }
+  }
 }

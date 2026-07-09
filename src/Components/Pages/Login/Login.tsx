@@ -34,14 +34,15 @@ function LoginComponent() {
     }
   }, [isAuthenticated, navigate]);
 
-  const onSubmit = (data: LoginFormData) => {
-    const result = login(data.email, data.password);
+  const onSubmit = async (data: LoginFormData) => {
+    setError("");
+    const result = await login(data.email, data.password);
 
     if (result.success) {
       reset();
       navigate("/profile");
     } else {
-      setError(result.message);
+      setError("Неверный логин или пароль");
     }
   };
 

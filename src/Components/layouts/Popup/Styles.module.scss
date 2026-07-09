@@ -70,6 +70,10 @@
   height: 32px;
   border-radius: 50%;
   color: $color-blue-400;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
   transition: all $transition-fast;
 
   &:hover {
