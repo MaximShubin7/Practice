@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Styles.module.scss";
-import type { IProduct } from "../../Types/Product";
 import { productService } from "../../../Services/ProductService";
+import { useAuth } from "../../Hooks/useAuth";
+import type { IProduct } from "../../Types/Product";
 import { Loader } from "../../UI/Loader";
 import { Search } from "../../UI/Search";
 import { ProductCard } from "../../Widgets/ProductCard";
 
 function MainComponent() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +24,8 @@ function MainComponent() {
         setProducts(data);
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
         setCartItems(cart.map((item: IProduct) => item.id));
+      } catch (error) {
+        console.error("Ошибка загрузки товаров:", error);
       } finally {
         setLoading(false);
       }
@@ -36,16 +40,24 @@ function MainComponent() {
 
   const handleLike = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     try {
       const updated = await productService.toggleLike(id);
       setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
-    } catch {
-      //
+    } catch (error) {
+      console.error("Ошибка:", error);
     }
   };
 
   const handleAddToCart = (product: IProduct, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingItem = cart.find((item: IProduct) => item.id === product.id);
 
@@ -61,6 +73,10 @@ function MainComponent() {
 
   const handleGoToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     navigate("/cart");
   };
 

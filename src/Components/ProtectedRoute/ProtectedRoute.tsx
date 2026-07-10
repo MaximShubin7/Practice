@@ -25,7 +25,7 @@ export function ProtectedRoute({
   }
 
   if (requireAdmin && !isAdmin) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

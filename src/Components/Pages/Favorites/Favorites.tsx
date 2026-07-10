@@ -1,18 +1,25 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import styles from "./Styles.module.scss";
 import { productService } from "../../../Services/ProductService";
+import { useAuth } from "../../Hooks/useAuth";
 import type { IProduct } from "../../Types/Product";
 import { Loader } from "../../UI/Loader";
 import { ProductCard } from "../../Widgets/ProductCard";
 
 function FavoritesComponent() {
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [favorites, setFavorites] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<string[]>([]);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     const loadFavorites = async () => {
       try {
         const products = await productService.getAll();
@@ -20,26 +27,36 @@ function FavoritesComponent() {
         setFavorites(likedProducts);
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
         setCartItems(cart.map((item: IProduct) => item.id));
+      } catch (error) {
+        console.error("Ошибка загрузки избранного:", error);
       } finally {
         setLoading(false);
       }
     };
 
     loadFavorites();
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   const handleLike = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     try {
       await productService.toggleLike(id);
       setFavorites((prev) => prev.filter((p) => p.id !== id));
-    } catch {
-      //
+    } catch (error) {
+      console.error("Ошибка:", error);
     }
   };
 
   const handleAddToCart = (product: IProduct, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingItem = cart.find((item: IProduct) => item.id === product.id);
 
@@ -52,6 +69,10 @@ function FavoritesComponent() {
 
   const handleGoToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     navigate("/cart");
   };
 
@@ -59,7 +80,7 @@ function FavoritesComponent() {
     navigate(`/product/${id}`);
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return <Loader fullPage />;
   }
 

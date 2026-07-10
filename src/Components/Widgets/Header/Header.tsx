@@ -37,6 +37,14 @@ function HeaderComponent() {
           >
             Избранное
           </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`${styles.navLink} ${isActive("/admin")}`}
+            >
+              Админ
+            </Link>
+          )}
         </nav>
 
         <div className={styles.actions}>
@@ -46,11 +54,6 @@ function HeaderComponent() {
                 {user?.firstName} {user?.lastName}
                 {isAdmin && <span className={styles.adminBadge}>Admin</span>}
               </span>
-              {isAdmin && (
-                <Link to="/admin" className={styles.link}>
-                  Панель
-                </Link>
-              )}
               <Link to="/profile" className={styles.link}>
                 Профиль
               </Link>

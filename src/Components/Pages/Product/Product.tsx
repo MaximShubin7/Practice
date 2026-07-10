@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 
 import styles from "./Styles.module.scss";
 import { productService } from "../../../Services/ProductService";
+import { useAuth } from "../../Hooks/useAuth";
 import type { IProduct } from "../../Types/Product";
 import { Button } from "../../UI/Button";
 import { Card } from "../../UI/Card";
@@ -11,6 +12,7 @@ import { Loader } from "../../UI/Loader";
 function ProductComponent() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -49,17 +51,25 @@ function ProductComponent() {
 
   const handleLike = async () => {
     if (!product) return;
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
 
     try {
       const updated = await productService.toggleLike(product.id);
       setProduct(updated);
     } catch {
-      //
+      // Ошибка обрабатывается тихо
     }
   };
 
   const handleAddToCart = () => {
     if (!product) return;
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
 
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingItem = cart.find((item: IProduct) => item.id === product.id);
@@ -75,6 +85,10 @@ function ProductComponent() {
   };
 
   const handleGoToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     navigate("/cart");
   };
 

@@ -21,7 +21,7 @@ function writeDB(data) {
   try {
     fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
   } catch {
-    //
+    // Ошибка игнорируется
   }
 }
 
@@ -175,33 +175,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const authHeader = req.headers.authorization;
-  if (
-    path === "/users" ||
-    path === "/products" ||
-    path.startsWith("/products/")
-  ) {
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.writeHead(401);
-      res.end(JSON.stringify({ message: "Unauthorized" }));
-      return;
-    }
-
-    const token = authHeader.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-      res.writeHead(401);
-      res.end(JSON.stringify({ message: "Invalid token" }));
-      return;
-    }
-  }
-
-  if (path === "/users" && method === "GET") {
-    res.writeHead(200);
-    res.end(JSON.stringify(db.users));
-    return;
-  }
-
   if (path === "/products" && method === "GET") {
     const products = db.products || [];
     res.writeHead(200);
@@ -221,6 +194,23 @@ const server = http.createServer((req, res) => {
     res.writeHead(200);
     res.end(JSON.stringify(product));
     return;
+  }
+
+  if (path === "/products" || path.startsWith("/products/")) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ message: "Unauthorized" }));
+      return;
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ message: "Invalid token" }));
+      return;
+    }
   }
 
   if (path === "/products" && method === "POST") {
@@ -281,6 +271,27 @@ const server = http.createServer((req, res) => {
     writeDB(db);
     res.writeHead(200);
     res.end(JSON.stringify({ message: "Deleted" }));
+    return;
+  }
+
+  if (path === "/users" && method === "GET") {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ message: "Unauthorized" }));
+      return;
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      res.writeHead(401);
+      res.end(JSON.stringify({ message: "Invalid token" }));
+      return;
+    }
+
+    res.writeHead(200);
+    res.end(JSON.stringify(db.users));
     return;
   }
 

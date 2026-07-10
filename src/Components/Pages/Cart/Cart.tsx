@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import styles from "./Styles.module.scss";
+import { useAuth } from "../../Hooks/useAuth";
 import { Popup } from "../../Layouts/Popup";
 import type { IProduct } from "../../Types/Product";
 import { Button } from "../../UI/Button";
@@ -13,19 +13,24 @@ interface CartItem extends IProduct {
 
 function CartComponent() {
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     const loadCart = () => {
       const items = JSON.parse(localStorage.getItem("cart") || "[]");
       setCartItems(items);
       setLoading(false);
     };
     loadCart();
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   const handleRemove = (id: string) => {
     setDeleteId(id);
@@ -60,7 +65,7 @@ function CartComponent() {
     0,
   );
 
-  if (loading) {
+  if (authLoading || loading) {
     return <Loader fullPage />;
   }
 
