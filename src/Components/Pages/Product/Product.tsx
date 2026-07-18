@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-
 import styles from "./Styles.module.scss";
+import { cartService } from "../../../Services/CartService";
+import { favoritesService } from "../../../Services/FavoritesService";
 import { productService } from "../../../Services/ProductService";
 import { useAuth } from "../../Hooks/useAuth";
 import type { IProduct } from "../../Types/Product";
@@ -17,6 +18,7 @@ function ProductComponent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isInCart, setIsInCart] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -30,12 +32,18 @@ function ProductComponent() {
       setError("");
 
       try {
-        const data = await productService.getById(id);
+        const [data, favIds, cart] = await Promise.all([
+          productService.getById(id),
+          isAuthenticated
+            ? favoritesService.getFavorites()
+            : Promise.resolve([]),
+          isAuthenticated ? cartService.getCart() : Promise.resolve([]),
+        ]);
 
         if (data) {
           setProduct(data);
-          const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-          setIsInCart(cart.some((item: IProduct) => item.id === data.id));
+          setIsInCart(cart.some((item) => item.productId === data.id));
+          setIsLiked(favIds.includes(data.id));
         } else {
           setError("Товар не найден");
         }
@@ -47,7 +55,7 @@ function ProductComponent() {
     };
 
     loadProduct();
-  }, [id]);
+  }, [id, isAuthenticated]);
 
   const handleLike = async () => {
     if (!product) return;
@@ -57,31 +65,26 @@ function ProductComponent() {
     }
 
     try {
-      const updated = await productService.toggleLike(product.id);
-      setProduct(updated);
+      const newState = await favoritesService.toggleFavorite(product.id);
+      setIsLiked(newState);
     } catch {
       // Ошибка обрабатывается тихо
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
 
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingItem = cart.find((item: IProduct) => item.id === product.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({ ...product, quantity: 1 });
+    try {
+      await cartService.addToCart(product.id);
+      setIsInCart(true);
+    } catch {
+      // Ошибка обрабатывается тихо
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setIsInCart(true);
   };
 
   const handleGoToCart = () => {
@@ -131,10 +134,10 @@ function ProductComponent() {
                 }}
               />
               <button
-                className={`${styles.likeButton} ${product.isLiked ? styles.liked : ""}`}
+                className={`${styles.likeButton} ${isLiked ? styles.liked : ""}`}
                 onClick={handleLike}
               >
-                {product.isLiked ? "❤️" : "🤍"}
+                {isLiked ? "❤️" : "🤍"}
               </button>
             </div>
 

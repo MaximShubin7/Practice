@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import styles from "./Styles.module.scss";
+import { cartService } from "../../../Services/CartService";
+import { productService } from "../../../Services/ProductService";
 import { useAuth } from "../../Hooks/useAuth";
 import { Popup } from "../../Layouts/Popup";
 import type { IProduct } from "../../Types/Product";
 import { Button } from "../../UI/Button";
 import { Loader } from "../../UI/Loader";
 
-interface CartItem extends IProduct {
+interface CartItemWithProduct {
+  productId: string;
   quantity: number;
+  product: IProduct;
 }
 
 function CartComponent() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -24,11 +29,26 @@ function CartComponent() {
       navigate("/login");
       return;
     }
-    const loadCart = () => {
-      const items = JSON.parse(localStorage.getItem("cart") || "[]");
-      setCartItems(items);
-      setLoading(false);
+    const loadCart = async () => {
+      try {
+        const [cart, products] = await Promise.all([
+          cartService.getCart(),
+          productService.getAll(),
+        ]);
+
+        setCartItems(
+          cart.map((item) => ({
+            ...item,
+            product: products.find((p) => p.id === item.productId)!,
+          })),
+        );
+      } catch (error) {
+        console.error("Ошибка загрузки корзины:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     loadCart();
   }, [isAuthenticated, navigate]);
 
@@ -37,22 +57,32 @@ function CartComponent() {
     setShowDeletePopup(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (deleteId === null) return;
-    const updated = cartItems.filter((item) => item.id !== deleteId);
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-    setShowDeletePopup(false);
-    setDeleteId(null);
+    try {
+      await cartService.removeFromCart(deleteId);
+      setCartItems((prev) =>
+        prev.filter((item) => item.productId !== deleteId),
+      );
+      setShowDeletePopup(false);
+      setDeleteId(null);
+    } catch (error) {
+      console.error("Ошибка удаления:", error);
+    }
   };
 
-  const handleQuantityChange = (id: string, quantity: number) => {
+  const handleQuantityChange = async (id: string, quantity: number) => {
     if (quantity < 1) return;
-    const updated = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity } : item,
-    );
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
+    try {
+      await cartService.updateQuantity(id, quantity);
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.productId === id ? { ...item, quantity } : item,
+        ),
+      );
+    } catch (error) {
+      console.error("Ошибка обновления:", error);
+    }
   };
 
   const handleProductClick = (id: string) => {
@@ -61,7 +91,7 @@ function CartComponent() {
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.product.price * item.quantity,
     0,
   );
 
@@ -95,20 +125,20 @@ function CartComponent() {
             <div className={styles.items}>
               {cartItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.productId}
                   className={styles.item}
-                  onClick={() => handleProductClick(item.id)}
+                  onClick={() => handleProductClick(item.productId)}
                   style={{ cursor: "pointer" }}
                 >
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.product.image}
+                    alt={item.product.name}
                     className={styles.image}
                   />
                   <div className={styles.info}>
-                    <h3 className={styles.name}>{item.name}</h3>
+                    <h3 className={styles.name}>{item.product.name}</h3>
                     <p className={styles.price}>
-                      {item.price.toLocaleString()} ₽
+                      {item.product.price.toLocaleString()} ₽
                     </p>
                   </div>
                   <div className={styles.controls}>
@@ -116,7 +146,7 @@ function CartComponent() {
                       className={styles.qtyButton}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleQuantityChange(item.id, item.quantity - 1);
+                        handleQuantityChange(item.productId, item.quantity - 1);
                       }}
                     >
                       −
@@ -126,7 +156,7 @@ function CartComponent() {
                       className={styles.qtyButton}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleQuantityChange(item.id, item.quantity + 1);
+                        handleQuantityChange(item.productId, item.quantity + 1);
                       }}
                     >
                       +
@@ -136,7 +166,7 @@ function CartComponent() {
                     className={styles.removeButton}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleRemove(item.id);
+                      handleRemove(item.productId);
                     }}
                   >
                     ✕

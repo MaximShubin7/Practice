@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
 import cn from "classnames";
-
 import styles from "./Styles.module.scss";
 import type { IProduct } from "../../Types/Product";
 import { Card } from "../../UI/Card";
@@ -11,6 +10,7 @@ interface ProductCardProps {
   onAddToCart: (product: IProduct, e: React.MouseEvent) => void;
   onGoToCart?: (e: React.MouseEvent) => void;
   isInCart?: boolean;
+  isLiked?: boolean;
   className?: string;
 }
 
@@ -20,6 +20,7 @@ function ProductCardComponent({
   onAddToCart,
   onGoToCart,
   isInCart = false,
+  isLiked = false,
   className = "",
 }: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
@@ -60,13 +61,11 @@ function ProductCardComponent({
           onError={() => setImageError(true)}
         />
         <button
-          className={cn(styles.likeButton, { [styles.liked]: product.isLiked })}
+          className={cn(styles.likeButton, { [styles.liked]: isLiked })}
           onClick={handleLike}
-          aria-label={
-            product.isLiked ? "Убрать из избранного" : "Добавить в избранное"
-          }
+          aria-label={isLiked ? "Убрать из избранного" : "Добавить в избранное"}
         >
-          {product.isLiked ? "❤️" : "🤍"}
+          {isLiked ? "❤️" : "🤍"}
         </button>
       </div>
 

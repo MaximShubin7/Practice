@@ -10,7 +10,4 @@ export interface IProduct {
   image: string;
   description: string;
   characteristics: Characteristic[];
-  isLiked: boolean;
 }
-
-export type ProductFormData = Omit<IProduct, "id" | "isLiked">;

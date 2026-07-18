@@ -9,8 +9,8 @@ import { Product } from "../Components/Pages/Product";
 import { Profile } from "../Components/Pages/Profile";
 import { Register } from "../Components/Pages/Register";
 import { ProtectedRoute } from "../Components/ProtectedRoute";
-import { Footer } from "../Components/Widgets/Footer";
-import { Header } from "../Components/Widgets/Header";
+import { Footer } from "../Components/Layouts/Footer";
+import { Header } from "../Components/Layouts/Header";
 import { AuthProvider } from "../Contexts/AuthContext";
 
 function AppComponent() {

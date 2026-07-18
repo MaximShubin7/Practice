@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Styles.module.scss";
+import { cartService } from "../../../Services/CartService";
+import { favoritesService } from "../../../Services/FavoritesService";
 import { productService } from "../../../Services/ProductService";
 import { useAuth } from "../../Hooks/useAuth";
 import type { IProduct } from "../../Types/Product";
 import { Loader } from "../../UI/Loader";
-import { Search } from "../../UI/Search";
+import { Search } from "../../Widgets/Search";
 import { ProductCard } from "../../Widgets/ProductCard";
 
 function MainComponent() {
@@ -15,24 +17,32 @@ function MainComponent() {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartItems, setCartItems] = useState<string[]>([]);
+  const [cartProductIds, setCartProductIds] = useState<string[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadData = async () => {
       try {
-        const data = await productService.getAll();
-        setProducts(data);
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        setCartItems(cart.map((item: IProduct) => item.id));
+        const [productsData, favIds, cart] = await Promise.all([
+          productService.getAll(),
+          isAuthenticated
+            ? favoritesService.getFavorites()
+            : Promise.resolve([]),
+          isAuthenticated ? cartService.getCart() : Promise.resolve([]),
+        ]);
+
+        setProducts(productsData);
+        setFavoriteIds(favIds);
+        setCartProductIds(cart.map((item) => item.productId));
       } catch (error) {
-        console.error("Ошибка загрузки товаров:", error);
+        console.error("Ошибка загрузки данных:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    loadProducts();
-  }, []);
+    loadData();
+  }, [isAuthenticated]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -45,30 +55,30 @@ function MainComponent() {
       return;
     }
     try {
-      const updated = await productService.toggleLike(id);
-      setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
+      const newState = await favoritesService.toggleFavorite(id);
+      if (newState) {
+        setFavoriteIds((prev) => [...prev, id]);
+      } else {
+        setFavoriteIds((prev) => prev.filter((favId) => favId !== id));
+      }
     } catch (error) {
       console.error("Ошибка:", error);
     }
   };
 
-  const handleAddToCart = (product: IProduct, e: React.MouseEvent) => {
+  const handleAddToCart = async (product: IProduct, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingItem = cart.find((item: IProduct) => item.id === product.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({ ...product, quantity: 1 });
+    try {
+      await cartService.addToCart(product.id);
+      const cart = await cartService.getCart();
+      setCartProductIds(cart.map((item) => item.productId));
+    } catch (error) {
+      console.error("Ошибка добавления в корзину:", error);
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setCartItems(cart.map((item: IProduct) => item.id));
   };
 
   const handleGoToCart = (e: React.MouseEvent) => {
@@ -123,7 +133,8 @@ function MainComponent() {
                   onLike={handleLike}
                   onAddToCart={handleAddToCart}
                   onGoToCart={handleGoToCart}
-                  isInCart={cartItems.includes(product.id)}
+                  isInCart={cartProductIds.includes(product.id)}
+                  isLiked={favoriteIds.includes(product.id)}
                 />
               </div>
             ))}
