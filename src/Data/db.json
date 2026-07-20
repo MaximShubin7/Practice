@@ -169,12 +169,7 @@
     "1783949975702": []
   },
   "carts": {
-    "1783949975702": [
-      {
-        "productId": "2",
-        "quantity": 1
-      }
-    ]
+    "1783949975702": []
   },
   "$schema": "./node_modules/json-server/schema.json"
 }

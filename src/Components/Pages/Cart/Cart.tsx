@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import styles from "./Styles.module.scss";
 import { cartService } from "../../../Services/CartService";
 import { productService } from "../../../Services/ProductService";

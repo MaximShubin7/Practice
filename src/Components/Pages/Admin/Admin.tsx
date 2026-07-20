@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-
 import styles from "./Styles.module.scss";
-import type { IProduct, ProductFormData } from "../../Types/Product";
+import type { IProduct } from "../../Types/Product";
 import { productService } from "../../../Services/ProductService";
 import { Popup } from "../../Layouts/Popup";
 import { Button } from "../../UI/Button";
 import { Card } from "../../UI/Card";
 import { Input } from "../../UI/Input";
 import { Loader } from "../../UI/Loader";
-import { productSchema } from "./Schema";
+import { productSchema, type ProductFormData } from "./Schema";
 
 function AdminComponent() {
   const navigate = useNavigate();
